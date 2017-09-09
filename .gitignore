@@ -1,2 +1,4 @@
 lib/node_modules
-app/values/fb-creds.js
+css/
+app/values/
+lib/.sass-cache
