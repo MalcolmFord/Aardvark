@@ -1,21 +1,40 @@
- <!DOCTYPE html>
- <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-     <meta charset="UTF-8">
-     <title>Aardvark</title>
-     <meta name="description" content="DESCRIPTION">
-    <link rel="stylesheet" href="css/styles.css">
- </head>
 
- <body>
-   <a href="pages/signin.html"><button id="signInBtn">Sign in</button></a>
+    <title>Aardvark</title>
+</head>
+
+<body>
+    <div ng-app="Aardvark">
+        <div ng-view>
+
+        </div>
+    </div>
+    <!-- Controllers -->
+    <script src="app/controller/addMemory.js"></script>
+    <script src="app/controller/home.js"></script>
+    <script src="app/controller/landingPage.js"></script>
+    <script src="app/controller/signin.js"></script>
+    <script src="app/controller/uptdMemory.js"></script>
+
+    <!-- Factories -->
+    <script src="app/factories/database.js"></script>
+    <script src="app/factories/userAuth.js"></script>
+
+    <!-- Libraries -->
+    <script type="text/javascript" src="./lib/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script type="text/javascript" src="./lib/node_modules/angular/angular.min.js"></script>
+    <script type="text/javascript" src="./lib/node_modules/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="./lib/node_modules/firebase/firebase.js"></script>
+
+    <!-- required -->
+    <script type="text/javascript" src="app/values/fb-creds.js"></script>
+    <script type="text/javascript" src="app/app.js"></script>
 
 
+</body>
 
-
-  <script src="javascripts/database.js"></script>
-  <script src="javascripts/main.js"></script>
- </body>
-
- </html>
+</html>
