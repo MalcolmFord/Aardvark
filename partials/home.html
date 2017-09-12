@@ -6,7 +6,7 @@ family they see -->
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <!-- This is the modal trigger -->
-        <li><button data-toggle="modal" data-target="#myModal">
+        <li><button data-toggle="modal" data-target="#myModal" ng-click="removeFamId()">
             + Create a Family
         </button></li>
 
@@ -24,7 +24,7 @@ family they see -->
             <div class="modal-body">
                 <div>
                     <form>
-                        <input type="text" placeholder="What is your family's name">
+                        <input type="text" placeholder="What is your family's name" ng-model="familyName.title">
                         <h3>Your new family id will be: </h3>{{newFamId}}
 
 
@@ -34,7 +34,7 @@ family they see -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="createFamily()">Create the Family</button>
+                <button type="button" class="btn btn-primary" ng-click="createFamily(); ">Create the Family</button>
             </div>
         </div>
     </div>

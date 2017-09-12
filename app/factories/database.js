@@ -40,6 +40,21 @@ app.factory('database', function($q, $http, FBCreds) {
     //This will delete data from firebase    
 
 
+    //This is the array that will be pushed to firebase
+    const familyInfo = function(obj) {
+        console.log('obj', obj);
+
+        return $q((resolve, reject) => {
+            let newObj = JSON.stringify(obj);
+            $http.post(`${FBCreds.databaseURL}/items.json`, newObj)
+                .then();
+        });
+
+
+
+
+
+    };
 
 
 
@@ -47,5 +62,9 @@ app.factory('database', function($q, $http, FBCreds) {
 
 
 
-    return { getData };
+
+
+
+
+    return { getData, familyInfo };
 });
