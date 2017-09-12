@@ -2,37 +2,41 @@
 <html lang="en">
 
 <head>
-
+    <link rel="stylesheet" href="lib/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <title>Aardvark</title>
 </head>
 
 <body>
     <div ng-app="Aardvark">
+        <div ng-include="'partials/navbar.html'"></div>
+        <!-- <div ng-include="'partials/sidebar.html'"></div> -->
         <div ng-view>
 
         </div>
+        <div ng-include="'partials/footer.html'"></div>
     </div>
+    <!-- Libraries -->
+    <script type="text/javascript" src="./lib/node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./lib/node_modules/angular/angular.min.js"></script>
+    <script type="text/javascript" src="./lib/node_modules/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="./lib/node_modules/firebase/firebase.js"></script>
+    <!-- required -->
+    <script type="text/javascript" src="app/app.js"></script>
+    <!-- Firebase -->
+    <script src="app/values/fb-creds.js"></script>
     <!-- Controllers -->
     <script src="app/controller/addMemory.js"></script>
     <script src="app/controller/home.js"></script>
     <script src="app/controller/landingPage.js"></script>
     <script src="app/controller/signin.js"></script>
-    <script src="app/controller/uptdMemory.js"></script>
+    <script src="app/controller/updtMemory.js"></script>
 
     <!-- Factories -->
     <script src="app/factories/database.js"></script>
     <script src="app/factories/userAuth.js"></script>
 
-    <!-- Libraries -->
-    <script type="text/javascript" src="./lib/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    <script type="text/javascript" src="./lib/node_modules/angular/angular.min.js"></script>
-    <script type="text/javascript" src="./lib/node_modules/angular-route/angular-route.min.js"></script>
-    <script type="text/javascript" src="./lib/node_modules/firebase/firebase.js"></script>
 
-    <!-- required -->
-    <script type="text/javascript" src="app/values/fb-creds.js"></script>
-    <script type="text/javascript" src="app/app.js"></script>
 
 
 </body>

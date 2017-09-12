@@ -1,5 +1,5 @@
 "use strict";
 
-app.controller('addMemory', {
+app.controller('addMemory', function($scope) {
 
 });

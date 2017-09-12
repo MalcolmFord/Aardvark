@@ -4,7 +4,21 @@ const app = angular.module("Aardvark", ["ngRoute"]);
 
 
 
+//This checks to see if the user is logged in, isAuth sets a true of false variable that will be used to check if the route is okay. 
 
+let isAuth = (userAuth) => new Promise((resolve, reject) => {
+
+    userAuth.isAuthenticated()
+        .then((userExists) => {
+            if (userExists) {
+                console.log("Authentication Good");
+                resolve();
+            } else {
+                console.log("Authentication Bad");
+                reject();
+            }
+        });
+});
 
 
 // This changes the ng-view based on what the ending of the url is
@@ -20,7 +34,8 @@ app.config(($routeProvider) => {
         })
         .when('/home', {
             templateUrl: './partials/home.html',
-            controller: 'home'
+            controller: 'home',
+            resolve: { isAuth }
         })
         .when('/addmemory', {
             templateUrl: './partials/addMemory.html',
@@ -28,9 +43,21 @@ app.config(($routeProvider) => {
         })
         .when('/updatememory', {
             templateUrl: './partials/updtMemory.html',
-            controller: 'updtMemory'
+            controller: 'updtMemory',
+            resolve: { isAuth }
         })
         .otherwise('/');
 
 
+});
+
+//Initilazies firebase
+app.run(($location, FBCreds) => {
+    let creds = FBCreds;
+    let authConfig = {
+        apiKey: creds.apiKey,
+        authDomain: creds.authDomain,
+        databaseURL: creds.databaseURL
+    };
+    firebase.initializeApp(authConfig);
 });

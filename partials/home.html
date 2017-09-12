@@ -1,0 +1,41 @@
+<h1>This is home</h1>
+<!-- This is the dropdown button that will allow users to create a new family, or choose which
+family they see -->
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Choose your family
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+        <!-- This is the modal trigger -->
+        <li><button data-toggle="modal" data-target="#myModal">
+            + Create a Family
+        </button></li>
+
+    </ul>
+</div>
+
+<!-- This is the modal itself -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form>
+                        <input type="text" placeholder="What is your family's name">
+                        <h3>Your new family id will be: </h3>{{newFamId}}
+
+
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="createFamily()">Create the Family</button>
+            </div>
+        </div>
+    </div>
+</div>
