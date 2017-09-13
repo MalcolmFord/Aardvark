@@ -49,10 +49,19 @@ app.factory('database', function($q, $http, FBCreds) {
             $http.post(`${FBCreds.databaseURL}/items.json`, newObj)
                 .then();
         });
+    };
 
+    /*This function, when called, will make a request to firebase to get the
+    family id's based on  the user's id.
+    */
+    const getFamId = function(userId) {
+        return $q((resolve, reject) => {
+            $http.get(`${FBCreds.databaseURL}/items.json?orderBy="userId"&equalTo="${[userId]}"`)
+                .then((userId) => {
+                    console.log('These are the pulled cards', userId);
 
-
-
+                })
+        });
 
     };
 
@@ -66,5 +75,5 @@ app.factory('database', function($q, $http, FBCreds) {
 
 
 
-    return { getData, familyInfo };
+    return { getData, familyInfo, getFamId };
 });

@@ -15,6 +15,7 @@ app.factory('userAuth', function($q, $http) {
                 } else {
                     resolve(false);
                 }
+                return currentUser;
             });
         });
     };
