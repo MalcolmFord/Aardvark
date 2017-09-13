@@ -1,6 +1,7 @@
 "use strict";
 
 app.controller('home', function($scope, moment, database, userAuth) {
+    $scope.title = [];
     //This is just the empty array and object to hold the family's name and id
     $scope.familyName = {
         title: '',
@@ -33,7 +34,18 @@ app.controller('home', function($scope, moment, database, userAuth) {
     /*The goal of this block of code is to pull down to family id's that the user created,
     take the title of those and display them as a list item in the drop down menu.*/
 
-    database.getFamId($scope.familyName.userId);
+    database.getFamId(userAuth.getCurrentUser());
+
+    $scope.emptyArray = [];
+
+    console.log('UserData', database.userData);
+    database.getFamId()
+        .then(titles => $scope.emptyArray.push(titles));
+
+    console.log('Empty array', $scope.emptyArray);
+
+
+
 
 
 });
