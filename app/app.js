@@ -1,6 +1,6 @@
 "use strict";
 //Sets up the use of angular with Aardvark, ngRoute sets up what is viewable in the ng-view portion of the index.
-const app = angular.module("Aardvark", ["ngRoute"]);
+const app = angular.module("Aardvark", ["ngRoute", "angularMoment"]);
 
 
 
