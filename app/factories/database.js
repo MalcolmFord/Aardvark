@@ -54,26 +54,52 @@ app.factory('database', function($q, $http, FBCreds) {
     /*This function, when called, will make a request to firebase to get the
     family id's based on  the user's id.
     */
-    const getFamId = function(userId) {
+    let titles = [];
+    let userData = [];
+
+    const getNames = function(obj) {
+        return Object.keys(obj).map(key => obj[key].title);
+    }
+
+
+
+    const getFamId = function(user) {
         return $q((resolve, reject) => {
-            $http.get(`${FBCreds.databaseURL}/items.json?orderBy="userId"&equalTo="${[userId]}"`)
-                .then((userId) => {
-                    console.log('These are the pulled cards', userId);
+            $http.get(`${FBCreds.databaseURL}/items.json?orderBy="userId"&equalTo="${user}"`) /**/
+                .then((items => resolve(getNames(items.data))));
+            // userData.push(user.data);
+            // console.log('These are the pulled cards', userData);
+            // Object.keys(userData).forEach((key) => {
+            //     titles.push(userData[key].title);
+            // });     
 
-                })
         });
-
     };
 
+    // const getAllContacts = function(user) {
+    //     let contacts = [];
+    //     console.log("url is", `${FBCreds.databaseURL}/contacts.json?orderBy="uid"&equalTo="${user}"`);
+    //     return $q((resolve, reject) => {
+    //             $http.get(`${FBCreds.databaseURL}/contacts.json?orderBy="uid"&equalTo="${user}"`)
+    //             .then((itemObject)=>{
+    //                 let itemCollection = itemObject.data;
+    //                 console.log("itemCollection", itemCollection);
+    //                 Object.keys(itemCollection).forEach((key) => {
+    //                     itemCollection[key].id = key;
+    //                     contacts.push(itemCollection[key]);
+    //                 });
+    //                 resolve(contacts);
+    //             })
+    //             .catch((error) => {
+    //                 reject(error);
+    //             });
+    //         });
+    //     };
 
 
 
 
 
 
-
-
-
-
-    return { getData, familyInfo, getFamId };
+    return { getData, familyInfo, getFamId, titles, userData };
 });
