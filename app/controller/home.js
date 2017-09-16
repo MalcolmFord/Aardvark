@@ -8,6 +8,22 @@ app.controller('home', function($scope, moment, database, userAuth) {
         famId: '',
         userId: ''
     };
+
+    $scope.families = [];
+    const getFamilyList = function() {
+
+        $scope.families.length = 0;
+
+        database.getFamId(userAuth.getCurrentUser())
+            .then(families => {
+                $scope.families = families;
+                console.log('families', families);
+
+            });
+    };
+
+
+
     //The line below is pulling the user's id from the userAuth.js page, and sending it to the empty object
     $scope.familyName.userId = userAuth.getCurrentUser();
     /*This block of code will do three things.
@@ -24,7 +40,13 @@ app.controller('home', function($scope, moment, database, userAuth) {
         //This is takeing the value of the user's input for their family's last name
         //This is adding the unique family id to the empty array
         $scope.familyName.famId = $scope.newFamId;
-        database.familyInfo($scope.familyName);
+        database.familyInfo($scope.familyName)
+            .then((familyInfo) => {
+                console.log('familyInfo', familyInfo);
+
+                getFamilyList();
+            });
+
     };
     //This function removes the old Family id, before allowing the user to create another ont
     $scope.removeFamId = function() {
@@ -34,15 +56,16 @@ app.controller('home', function($scope, moment, database, userAuth) {
     /*The goal of this block of code is to pull down to family id's that the user created,
     take the title of those and display them as a list item in the drop down menu.*/
 
-    database.getFamId(userAuth.getCurrentUser());
+    getFamilyList();
 
-    $scope.emptyArray = [];
+    $scope.showFamId = function(event) {
+        console.log('This is our click event', event);
 
-    console.log('UserData', database.userData);
-    database.getFamId()
-        .then(titles => $scope.emptyArray.push(titles));
+    };
 
-    console.log('Empty array', $scope.emptyArray);
+
+
+
 
 
 
