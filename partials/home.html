@@ -4,7 +4,10 @@ family they see -->
 <div class="dropdown">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Choose your family
     <span class="caret"></span></button>
-    <ul class="dropdown-menu">
+    <ul>
+        <!-- class="dropdown-menu" -->
+        <li ng-repeat="family in families"><a ng-href="#!/details/{{family.famId}}" ng-click="showFamId(event)">{{family.title}}</a></li>
+
 
 
         <!-- This is the modal trigger -->
@@ -12,7 +15,7 @@ family they see -->
 
     </ul>
 </div>
-<div ng-repeat=""></div>
+<!-- <div ng-repeat=""></div> -->
 
 <!-- This is the modal itself -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -35,7 +38,7 @@ family they see -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="createFamily(); ">Create the Family</button>
+                <button type="button" class="btn btn-primary" ng-click="createFamily();" onclick="this.disabled=true">Create the Family</button>
             </div>
         </div>
     </div>

@@ -1,0 +1,36 @@
+<h1>Create your memories</h1>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form>
+                        <input type="file" placeholder="choose an image" ng-model="memoryContent.image">
+                        <textarea cols="30" rows="10" placeholder="enter text" ng-model="memoryContent.message"></textarea>
+
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="createMemory();" onclick="this.disabled=true">Create the Memory</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button><a data-toggle="modal" data-target="#myModal" ng-click="removeFamId()">+ Create a Memory</a></button>
+
+
+<div ng-repeat="item in pulledArray">
+
+    <h1>{{item.message}}</h1>
+
+</div>

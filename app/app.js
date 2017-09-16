@@ -46,6 +46,20 @@ app.config(($routeProvider) => {
             controller: 'updtMemory',
             resolve: { isAuth }
         })
+        .when('/details/:itemID', {
+            templateUrl: './partials/genericMemory.html',
+            controller: 'memoryCtrl',
+            resolve: { isAuth }
+        })
+        .when('/register_new_user', {
+            templateUrl: './partials/registerUser.html',
+            controller: 'registerUser'
+        })
+        .when('/user_home', {
+            templateUrl: './partials/genericMemory.html',
+            controller: 'memoryCtrl',
+            resolve: { isAuth }
+        })
         .otherwise('/');
 
 

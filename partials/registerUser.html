@@ -1,0 +1,10 @@
+<h1>This is the register page</h1>
+<div>
+    <input type="text" placeholder="First Name" ng-model="newUser.first_name">
+    <input type="text" placeholder="Last Name" ng-model="newUser.last_name">
+    <input type="text" placeholder="Date of Birth">
+    <input type="email" placeholder="Email" ng-model="emailAndPassword.email">
+    <input type="password" placeholder="Password" ng-model="emailAndPassword.password">
+    <textarea name="memory" id="firstMemory" cols="30" rows="10" placeholder="Enter your favorite childhood memory" ng-model="newUser.firstMemory"></textarea>
+</div>
+<button ng-click="registerNewUser()"><a ng-href="#!/user_home">Register</a></button>

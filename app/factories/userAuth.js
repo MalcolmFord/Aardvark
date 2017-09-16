@@ -35,5 +35,16 @@ app.factory('userAuth', function($q, $http) {
     let authWithProvider = function() {
         return firebase.auth().signInWithPopup(provider);
     };
-    return { isAuthenticated, getCurrentUser, logOut, authWithProvider };
+
+    const registerUser = function(userObj) {
+        firebase.auth().createUserWithEmailAndPassword(userObj.email, userObj.password).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+        });
+    };
+
+
+    return { isAuthenticated, getCurrentUser, logOut, authWithProvider, registerUser };
 });
