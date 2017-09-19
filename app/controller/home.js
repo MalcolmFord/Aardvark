@@ -17,7 +17,6 @@ app.controller('home', function($scope, moment, database, userAuth) {
         database.getFamId(userAuth.getCurrentUser())
             .then(families => {
                 $scope.families = families;
-                console.log('families', families);
 
             });
     };
@@ -42,7 +41,6 @@ app.controller('home', function($scope, moment, database, userAuth) {
         $scope.familyName.famId = $scope.newFamId;
         database.familyInfo($scope.familyName)
             .then((familyInfo) => {
-                console.log('familyInfo', familyInfo);
 
                 getFamilyList();
             });
@@ -59,7 +57,6 @@ app.controller('home', function($scope, moment, database, userAuth) {
     getFamilyList();
 
     $scope.showFamId = function(event) {
-        console.log('This is our click event', event);
 
     };
 

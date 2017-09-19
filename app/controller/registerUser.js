@@ -11,12 +11,10 @@ app.controller('registerUser', function($scope, database, userAuth) {
         email: '',
         password: ''
     };
-    console.log('new user', $scope.newUser);
 
     $scope.registerNewUser = function() {
         userAuth.registerUser($scope.emailAndPassword);
         database.createUserProfile($scope.newUser);
-        console.log('new new user', $scope.newUser);
 
     };
 });

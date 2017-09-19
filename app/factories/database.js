@@ -20,12 +20,13 @@ app.factory('database', function($q, $http, FBCreds) {
             $http.get(`${FBCreds.databaseURL}/memories.json?orderBy="userId"&equalTo="${user}"`)
                 .then((data) => {
                     let itemCollection = data.data;
-                    console.log("itemCollection", itemCollection.message);
+                    console.log('Item collection database', itemCollection);
                     Object.keys(itemCollection).forEach((key) => {
-                        itemCollection[key] = key;
-                        items.push(itemCollection[key].message);
+                        itemCollection[key].id = key;
+                        items.push(itemCollection[key]);
+
                     });
-                    resolve(items)
+                    resolve(items);
 
                 })
                 .catch((error) => {
@@ -35,48 +36,103 @@ app.factory('database', function($q, $http, FBCreds) {
     };
     //Creating a new memory
     const createMemory = function(obj) {
+        let newMemory = JSON.stringify(obj);
+        return $http.post(`${FBCreds.databaseURL}/memories.json`, newMemory)
+            .then((obj) => {
+                console.log('create memory on database', obj);
+                return obj;
+            }, (error) => {
+                let errorCode = error.code;
+                let errorMessage = error.message;
+                console.log("error", errorCode, errorMessage);
+            });
+    };
+    const editMemory = function(id, message) {
         return $q((resolve, reject) => {
-            let newMemory = JSON.stringify(obj);
-            $http.post(`${FBCreds.databaseURL}/memories.json`, newMemory)
-                .then((obj) => {
-                    resolve();
+            let newMessage = JSON.stringify(message);
+            console.log('edit id ', id, newMessage);
+
+
+            $http.patch(`${FBCreds.databaseURL}/memories/${id}.json`, newMessage)
+                .then((data) => {
+
+                    resolve(data);
                 })
                 .catch((error) => {
                     reject(error);
                 });
         });
     };
-    //Pushing up the family id and name
-    const familyInfo = function(obj) {
-        console.log('obj', obj);
-
+    const deleteMemory = function(id) {
         return $q((resolve, reject) => {
-            let newObj = JSON.stringify(obj);
-            $http.post(`${FBCreds.databaseURL}/items.json`, newObj)
-                .then((data) => {
-
-                    console.log('testData', data);
-
-                    resolve(data);
-
+            $http.delete(`${FBCreds.databaseURL}/memories/${id}.json`)
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((error) => {
+                    reject(error);
                 });
         });
     };
-    //Reteving the user's family list
-    const getFamId = function(user) {
-        let families = [];
+    const pullSingleMemory = function(id) {
+        console.log('pull single memory database id', id);
+
         return $q((resolve, reject) => {
-            $http.get(`${FBCreds.databaseURL}/items.json?orderBy="userId"&equalTo="${user}"`)
-                .then((user) => {
-                    console.log('user', user.data);
-                    Object.keys(user.data).forEach((key) => {
-                        families.push(user.data[key]);
-                    });
-                    resolve(families);
+            console.log('pull single memory id', `${FBCreds.databaseURL}/memories/${id}.json`);
+
+            $http.get(`${FBCreds.databaseURL}/memories/${id}.json`)
+                .then((itemObj) => {
+                    // [Object.keys(itemObj)[0]]
+                    resolve(itemObj.data);
                 })
-                .catch(error => reject(error));
+                .catch((error) => {
+                    reject(error);
+                });
         });
     };
+    // const pullNewMemory = function(id) {
+    //     return $q((resolve, reject) => {
+    //         $http.get(`${FBCreds.databaseURL}/memories/${id}.json`)
+    //             .then((data) => {
 
-    return { getData, familyInfo, getFamId, createUserProfile, createMemory };
+    //                 resolve(data);
+    //             })
+    //             .catch((error) => {
+    //                 reject(error);
+    //             });
+    //     });
+    // };
+
+
+
+
+    //Pushing up the family id and name
+    // const familyInfo = function(obj) {
+
+    //     return $q((resolve, reject) => {
+    //         let newObj = JSON.stringify(obj);
+    //         $http.post(`${FBCreds.databaseURL}/items.json`, newObj)
+    //             .then((data) => {
+
+
+    //                 resolve(data);
+
+    //             });
+    //     });
+    // };
+    //Reteving the user's family list
+    // const getFamId = function(user) {
+    //     let families = [];
+    //     return $q((resolve, reject) => {
+    //         $http.get(`${FBCreds.databaseURL}/items.json?orderBy="userId"&equalTo="${user}"`)
+    //             .then((user) => {
+    //                 Object.keys(user.data).forEach((key) => {
+    //                     families.push(user.data[key]);
+    //                 });
+    //                 resolve(families);
+    //             })
+    //             .catch(error => reject(error));
+    //     });
+    // };
+    return { getData, createUserProfile, createMemory, editMemory, pullSingleMemory, deleteMemory };
 });

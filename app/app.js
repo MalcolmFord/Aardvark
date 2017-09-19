@@ -11,10 +11,8 @@ let isAuth = (userAuth) => new Promise((resolve, reject) => {
     userAuth.isAuthenticated()
         .then((userExists) => {
             if (userExists) {
-                console.log("Authentication Good");
                 resolve();
             } else {
-                console.log("Authentication Bad");
                 reject();
             }
         });
@@ -58,6 +56,11 @@ app.config(($routeProvider) => {
         .when('/user_home', {
             templateUrl: './partials/genericMemory.html',
             controller: 'memoryCtrl',
+            resolve: { isAuth }
+        })
+        .when('/edit/:itemId', {
+            templateUrl: './partials/editMemory.html',
+            controller: 'editMemoryCtrl',
             resolve: { isAuth }
         })
         .otherwise('/');

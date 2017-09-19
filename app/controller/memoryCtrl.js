@@ -1,36 +1,39 @@
 "use strict";
+app.controller('memoryCtrl', function($scope, database, $routeParams, userAuth, moment) {
+    console.log("itemId", $routeParams);
 
-app.controller('memoryCtrl', function($scope, database, userAuth) {
-
+    //this provides the current user's id
+    let currentUserId = userAuth.getCurrentUser();
+    //empty object for user's input to go
     $scope.memoryContent = {
         image: '',
         message: '',
-        userId: ''
+        userId: currentUserId,
+        id: ''
     };
-    //getting the user id
-    $scope.userId = userAuth.getCurrentUser();
-    console.log('memory userid', $scope.userId);
-    $scope.memoryContent.userId = $scope.userId;
-    let userId = $scope.memoryContent.userId;
-
-    $scope.createMemory = function() {
-        database.createMemory($scope.memoryContent);
-        database.getData($scope.userId);
-        $scope.pulledArray.push($scope.memoryContent);
-        console.log('$scope.memoryContent', $scope.memoryContent);
-
-    };
-
-    const showAllTasks = function() {
-        $scope.pulledArray = [];
-        database.getData()
+    //goes to firebase and pulls all of the user's data based on their user id
+    const getAllMemories = function() {
+        database.getData(currentUserId)
             .then((items) => {
-                console.log("showAllTasks from promise", items);
                 $scope.pulledArray = items;
-                console.log('pulledArray', $scope.pulledArray);
-
             });
     };
-    database.getData($scope.userId);
-    showAllTasks();
+    //pushes a new memory to firebase
+    $scope.createMemory = function() {
+        database.createMemory($scope.memoryContent)
+            .then((data) => {
+                console.log('data', data.data.name);
+                $scope.uniqueId = data.data.name;
+                getAllMemories();
+            });
+    };
+    $scope.deleteMemory = function(item) {
+        database.deleteMemory(item.id)
+            .then(() => {
+                getAllMemories();
+            });
+    };
+    //selects the selected memory based on the firebase id
+
+    getAllMemories();
 });

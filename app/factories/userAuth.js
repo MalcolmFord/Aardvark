@@ -10,7 +10,6 @@ app.factory('userAuth', function($q, $http) {
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     currentUser = user.uid;
-                    console.log("user", user.uid);
                     resolve(true);
                 } else {
                     resolve(false);
