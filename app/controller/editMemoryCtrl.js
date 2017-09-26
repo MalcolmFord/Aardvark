@@ -22,9 +22,21 @@ app.controller('editMemoryCtrl', function($scope, database, userAuth, $routePara
             userId: currentUserId
         };
     };
+
     $scope.submitMemory = function() {
 
         database.editMemory($routeParams.itemId, $scope.editMemory)
+            .then(() => {
+                getAllMemories();
+            });
+    };
+
+    $scope.newImage = {
+        text: '',
+        memoryId: $routeParams.itemId
+    };
+    $scope.submitAssets = function() {
+        database.submitAssets($scope.newImage)
             .then(() => {
                 getAllMemories();
             });

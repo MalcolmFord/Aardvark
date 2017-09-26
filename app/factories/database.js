@@ -7,12 +7,15 @@ app.factory('database', function($q, $http, FBCreds) {
             let newUser = JSON.stringify(obj);
             $http.post(`${FBCreds.databaseURL}/users.json`, newUser)
                 .then((obj) => {
-                    resolve();
+                    console.log('object', obj);
+
+                    resolve(obj);
                 }).catch((error) => {
                     reject(error);
                 });
         });
     };
+
     //Grabing the user's memories
     const getData = function(user) {
         let items = [];
@@ -63,6 +66,21 @@ app.factory('database', function($q, $http, FBCreds) {
                 });
         });
     };
+    const submitAssets = function(obj) {
+        return $q((resolve, reject) => {
+            let newMessage = JSON.stringify(obj);
+            console.log('newMessage', newMessage);
+            $http.post(`${FBCreds.databaseURL}/assets`, newMessage)
+                .then((result) => {
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+
+
+        });
+    };
     const deleteMemory = function(id) {
         return $q((resolve, reject) => {
             $http.delete(`${FBCreds.databaseURL}/memories/${id}.json`)
@@ -90,49 +108,103 @@ app.factory('database', function($q, $http, FBCreds) {
                 });
         });
     };
-    // const pullNewMemory = function(id) {
-    //     return $q((resolve, reject) => {
-    //         $http.get(`${FBCreds.databaseURL}/memories/${id}.json`)
-    //             .then((data) => {
-
-    //                 resolve(data);
-    //             })
-    //             .catch((error) => {
-    //                 reject(error);
-    //             });
-    //     });
-    // };
-
-
-
 
     //Pushing up the family id and name
-    // const familyInfo = function(obj) {
+    const familyInfo = function(obj) {
 
-    //     return $q((resolve, reject) => {
-    //         let newObj = JSON.stringify(obj);
-    //         $http.post(`${FBCreds.databaseURL}/items.json`, newObj)
-    //             .then((data) => {
+        return $q((resolve, reject) => {
+            let newObj = JSON.stringify(obj);
+            $http.post(`${FBCreds.databaseURL}/families.json`, newObj)
+                .then((data) => {
+                    console.log('create family data', data.data.name);
+                    console.log('create family data again', obj);
+                    //Here I am defining what the family id is
+                    let newFamId = data.data.name;
+                    obj.famId = newFamId;
+                    console.log('new Fam id', obj.famId);
+                    resolve(data.data.name);
 
+                });
+        });
+    };
+    //Immedeatily updating the families data.
+    const updateImmediately = function(id, message) {
+        $q((resolve, reject) => {
+            let newMessage = JSON.stringify(message);
+            $http.patch(`${FBCreds.databaseURL}/families/${id}.json`, newMessage)
+                .then((data) => {
+                    resolve(data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    // Reteving the user 's family list
+    const getFamId = function(user) {
+        let families = [];
+        return $q((resolve, reject) => {
+            $http.get(`${FBCreds.databaseURL}/families.json?orderBy="userId"&equalTo="${user}"`)
+                .then((user) => {
+                    Object.keys(user.data).forEach((key) => {
+                        families.push(user.data[key]);
+                    });
+                    resolve(families);
+                })
+                .catch(error => reject(error));
+        });
+    };
+    const findFamily = function(obj) {
+        return $q((resolve, reject) => {
+            $http.get(`${FBCreds.databaseURL}/families/${obj}.json`)
+                .then((itemObj) => {
+                    console.log('personal family obj', itemObj);
 
-    //                 resolve(data);
-
-    //             });
-    //     });
-    // };
-    //Reteving the user's family list
-    // const getFamId = function(user) {
-    //     let families = [];
-    //     return $q((resolve, reject) => {
-    //         $http.get(`${FBCreds.databaseURL}/items.json?orderBy="userId"&equalTo="${user}"`)
-    //             .then((user) => {
-    //                 Object.keys(user.data).forEach((key) => {
-    //                     families.push(user.data[key]);
-    //                 });
-    //                 resolve(families);
-    //             })
-    //             .catch(error => reject(error));
-    //     });
-    // };
-    return { getData, createUserProfile, createMemory, editMemory, pullSingleMemory, deleteMemory };
+                    resolve(itemObj.data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    const postFamilyMemory = function(id, memory) {
+        let newMemory = JSON.stringify(memory);
+        return $q((resolve, reject) => {
+            $http.post(`${FBCreds.databaseURL}/familyMemory.json`, newMemory)
+                .then((data) => {
+                    console.log('This is what was posted to the family board', data);
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    //This needs to be finished
+    const pullAllMemories = function(id) {
+        return $q((resolve, reject) => {
+            $http.get(`${FBCreds.databaseURL}/familyMemory.json?orderBy="familyId"&equalTo="${id}"`)
+                .then((data) => {
+                    resolve(data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    return {
+        getData,
+        createUserProfile,
+        createMemory,
+        editMemory,
+        submitAssets,
+        pullSingleMemory,
+        deleteMemory,
+        getFamId,
+        familyInfo,
+        findFamily,
+        updateImmediately,
+        pullAllMemories,
+        postFamilyMemory
+    };
 });

@@ -3,14 +3,16 @@
 
 <head>
     <link rel="stylesheet" href="lib/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
     <title>Aardvark</title>
 </head>
 
 <body>
-    <div ng-app="Aardvark">
+    <div ng-app="Aardvark" id="ngApp">
         <div ng-include="'partials/navbar.html'"></div>
         <!-- <div ng-include="'partials/sidebar.html'"></div> -->
         <div ng-view>
+
 
         </div>
         <div ng-include="'partials/footer.html'"></div>
@@ -28,18 +30,19 @@
     <!-- Firebase -->
     <script src="app/values/fb-creds.js"></script>
     <!-- Controllers -->
-    <script src="app/controller/addMemory.js"></script>
-    <script src="app/controller/home.js"></script>
     <script src="app/controller/landingPage.js"></script>
     <script src="app/controller/signin.js"></script>
-    <script src="app/controller/updtMemory.js"></script>
     <script src="app/controller/memoryCtrl.js"></script>
     <script src="app/controller/registerUser.js"></script>
     <script src="app/controller/editMemoryCtrl.js"></script>
+    <script src="app/controller/navCtrl.js"></script>
+    <script src="app/controller/familyCtrl.js"></script>
+    <script src="app/controller/genFamPage.js"></script>
 
     <!-- Factories -->
     <script src="app/factories/database.js"></script>
     <script src="app/factories/userAuth.js"></script>
+    <script src="app/factories/mediaDatabase.js"></script>
 
 
 

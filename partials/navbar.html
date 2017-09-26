@@ -1,10 +1,11 @@
-<nav ngController="navCtrl">
+<nav ng-controller="navCtrl">
 
     <div>
-        <h1>Tell Me Your Story</h1>
+        <h1 ng-show="isLoggedIn">Tell Me Your Story</h1>
     </div>
-    <button><a href="#!/login">Login</a></button>
-    <button><a href="#!/login">Register</a></button>
+    <button ng-show="!isLoggedIn"><a href="#!/login">Login</a></button>
+    <button ng-show="isLoggedIn" ng-click="logout(); reloadRoute();"><a href="#!/">Log out</a></button>
+    <button ng-show="isLoggedIn"><a href="#!/user_path">Home</a></button>
 
 </nav>
 <hr>

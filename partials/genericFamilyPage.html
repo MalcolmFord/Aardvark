@@ -1,0 +1,44 @@
+<h1>hi</h1>
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <button><a data-toggle="modal" data-target="#myModal" ng-click="removeFamId();"> + Create a Memory </a></button>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Create Memory</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form>
+                        <!-- <label>
+                            <input type="file" placeholder="choose an image" ng-model="newImage.image">
+                        </label> -->
+                        <textarea cols="30" rows="10" placeholder="enter text" ng-model="newMemory.text"></textarea>
+
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="createMemory();">Create the Memory</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- this shows the family's memories -->
+<div class="row">
+    <div class="col-md-4" ng-repeat="item in mems">
+        <div class="cards">
+            <p>{{item.text}}</p>
+        </div>
+    </div>
+</div>

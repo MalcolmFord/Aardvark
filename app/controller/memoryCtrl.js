@@ -1,5 +1,5 @@
 "use strict";
-app.controller('memoryCtrl', function($scope, database, $routeParams, userAuth, moment) {
+app.controller('memoryCtrl', function($scope, database, $routeParams, userAuth, moment, media) {
     console.log("itemId", $routeParams);
 
     //this provides the current user's id
@@ -8,24 +8,33 @@ app.controller('memoryCtrl', function($scope, database, $routeParams, userAuth, 
     $scope.memoryContent = {
         image: '',
         message: '',
-        userId: currentUserId,
-        id: ''
+        userId: currentUserId
+    };
+    $scope.newImage = {
+        image: ''
     };
     //goes to firebase and pulls all of the user's data based on their user id
     const getAllMemories = function() {
+        console.log('currentUserId at getAllMemories', currentUserId);
+
         database.getData(currentUserId)
             .then((items) => {
                 $scope.pulledArray = items;
+
             });
     };
     //pushes a new memory to firebase
     $scope.createMemory = function() {
+        console.log('currentUserId at createMemories', currentUserId);
+
         database.createMemory($scope.memoryContent)
             .then((data) => {
-                console.log('data', data.data.name);
+
                 $scope.uniqueId = data.data.name;
                 getAllMemories();
             });
+        media.uploadImage($scope.newImage);
+
     };
     $scope.deleteMemory = function(item) {
         database.deleteMemory(item.id)
