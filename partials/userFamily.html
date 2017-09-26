@@ -1,0 +1,62 @@
+<h1>This is home</h1>
+<!-- This is the dropdown button that will allow users to create a new family, or choose which
+family they see -->
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Choose your family
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+        <!-- class=" dropdown-menu " -->
+        <li ng-repeat="family in families "><a ng-href="#!/{{family.famId}} " ng-click="showFamId(event) ">{{family.title}} </a> ({{family.famId}})
+            <hr>
+        </li>
+        <!-- This is the modal trigger -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Create a new Family
+          </button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#findFamily">
+            Find your Family
+          </button>
+    </ul>
+</div>
+
+<!-- This is the modal itself -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create a Family</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <input type="text " placeholder="What is your family 's name" ng-model="familyName.title">
+                <h3>Your new family id will be: </h3>{{newFamId}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="createFamily()">Create Family</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- This is the find a family modal itself -->
+<div class="modal fade" id="findFamily" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Find your Family</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <input type="text " placeholder="What is your family 's id?" ng-model="familyId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="findFamily()">Find your family Family</button>
+            </div>
+        </div>
+    </div>
+</div>

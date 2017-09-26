@@ -1,17 +1,16 @@
-<h1>Create your memories</h1>
-
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">Create Memory</h4>
             </div>
             <div class="modal-body">
                 <div>
                     <form>
-                        <input type="file" placeholder="choose an image" ng-model="memoryContent.image">
+                        <label>
+                            <input type="file" placeholder="choose an image" ng-model="newImage.image">
+                        </label>
                         <textarea cols="30" rows="10" placeholder="enter text" ng-model="memoryContent.message"></textarea>
 
 
@@ -20,21 +19,30 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="createMemory();" onclick="this.disabled=true">Create the Memory</button>
+                <button type="button" class="btn btn-primary" ng-click="createMemory();">Create the Memory</button>
             </div>
         </div>
     </div>
 </div>
-
-<button><a data-toggle="modal" data-target="#myModal" ng-click="removeFamId();">+ Create a Memory</a></button>
-
-
-<div ng-repeat="item in pulledArray" id="{{item.id}}">
-    <h1>{{item.message}}</h1>
-    <button><a href="#!/edit/{{item.id}}">Edit</a></button>
-    <button ng-click="deleteMemory(item)">Delete</button>
-
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <button><a data-toggle="modal" data-target="#myModal" ng-click="removeFamId();"> + Create a Memory </a></button>
+    </div>
+    <div class="col-md-4"></div>
 </div>
+
+<div class="row">
+    <div ng-repeat="item in pulledArray" id="{{item.id}}" class="col-md-3">
+        <div class="cards">
+            <img src="{{item.image}}">
+            <p>{{item.message}}</p>
+            <button><a href="#!/edit/{{item.id}}">Edit</a></button>
+            <button ng-click="deleteMemory(item)">Delete</button>
+        </div>
+    </div>
+</div>
+
 
 
 <!-- This is the modal to edit memories

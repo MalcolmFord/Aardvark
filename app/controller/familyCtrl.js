@@ -1,6 +1,6 @@
 "use strict";
 
-app.controller('home', function($scope, moment, database, userAuth) {
+app.controller('familyCtrl', function($scope, moment, database, userAuth) {
     $scope.title = [];
     //This is just the empty array and object to hold the family's name and id
     $scope.familyName = {
@@ -35,15 +35,19 @@ app.controller('home', function($scope, moment, database, userAuth) {
     $scope.createFamily = function() {
         //This is generating the family id
         let momentTime = moment().format("X");
-        $scope.newFamId = Math.floor(Math.random() * 9999999) + momentTime;
         //This is takeing the value of the user's input for their family's last name
         //This is adding the unique family id to the empty array
-        $scope.familyName.famId = $scope.newFamId;
         database.familyInfo($scope.familyName)
             .then((familyInfo) => {
+                console.log('famiily info', familyInfo);
+                $scope.newFamId = familyInfo;
+                $scope.familyName.famId = familyInfo;
 
-                getFamilyList();
+                //Here, I'm taking the FB Id, adding it to the object, then sending that back up to firebase
+                $scope.familyName.famId = familyInfo;
+                database.updateImmediately(familyInfo, $scope.familyName);
             });
+        getFamilyList();
 
     };
     //This function removes the old Family id, before allowing the user to create another ont
@@ -51,21 +55,15 @@ app.controller('home', function($scope, moment, database, userAuth) {
         $scope.newFamId = "";
     };
 
+
+
     /*The goal of this block of code is to pull down to family id's that the user created,
     take the title of those and display them as a list item in the drop down menu.*/
 
-    getFamilyList();
-
-    $scope.showFamId = function(event) {
-
+    $scope.findFamily = function() {
+        let familySearchId = $scope.familyId;
+        database.findFamily(familySearchId);
     };
 
-
-
-
-
-
-
-
-
+    getFamilyList();
 });
