@@ -38,7 +38,9 @@
 <div class="row">
     <div class="col-md-4" ng-repeat="item in mems">
         <div class="cards">
-            <p>{{item.text}}</p>
+            <p ng-model="newMemory.text">{{item.text}}</p>
+            <button><a href="#!/family_edit/{{item.id}}">Edit</a></button>
+            <button ng-click="deleteMemory(item)">Delete</button>
         </div>
     </div>
 </div>

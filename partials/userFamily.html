@@ -6,7 +6,7 @@ family they see -->
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <!-- class=" dropdown-menu " -->
-        <li ng-repeat="family in families "><a ng-href="#!/{{family.famId}} " ng-click="showFamId(event) ">{{family.title}} </a> ({{family.famId}})
+        <li ng-repeat="family in families "><a ng-href="#!/{{family.famId}} ">{{family.title}} </a> ({{family.famId}})
             <hr>
         </li>
         <!-- This is the modal trigger -->
@@ -54,6 +54,7 @@ family they see -->
                 <input type="text " placeholder="What is your family 's id?" ng-model="familyId">
             </div>
             <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="joinFamily();">Join</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" ng-click="findFamily()">Find your family Family</button>
             </div>
