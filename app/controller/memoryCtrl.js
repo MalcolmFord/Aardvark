@@ -1,6 +1,6 @@
 "use strict";
 app.controller('memoryCtrl', function($scope, database, $routeParams, userAuth, moment, media) {
-    console.log("itemId", $routeParams);
+    // console.log("itemId", $routeParams);
 
     //this provides the current user's id
     let currentUserId = userAuth.getCurrentUser();
@@ -15,7 +15,7 @@ app.controller('memoryCtrl', function($scope, database, $routeParams, userAuth, 
     };
     //goes to firebase and pulls all of the user's data based on their user id
     const getAllMemories = function() {
-        console.log('currentUserId at getAllMemories', currentUserId);
+        // console.log('currentUserId at getAllMemories', currentUserId);
 
         database.getData(currentUserId)
             .then((items) => {
@@ -25,7 +25,9 @@ app.controller('memoryCtrl', function($scope, database, $routeParams, userAuth, 
     };
     //pushes a new memory to firebase
     $scope.createMemory = function() {
-        console.log('currentUserId at createMemories', currentUserId);
+        // console.log('currentUserId at createMemories', currentUserId);
+        // console.log('is the new Image null', $scope.newImage.image);
+
 
         database.createMemory($scope.memoryContent)
             .then((data) => {

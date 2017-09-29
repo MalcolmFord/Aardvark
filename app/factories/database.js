@@ -256,8 +256,6 @@ app.factory('database', function($q, $http, FBCreds) {
                         itemCollection[key].id = key;
                         id.push(itemCollection[key]);
                         console.log('id', id);
-
-
                     });
                     resolve(id);
                 })
