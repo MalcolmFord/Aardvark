@@ -64,11 +64,17 @@ app.config(($routeProvider) => {
         })
         .when('/user_path', {
             templateUrl: './partials/userPath.html',
-            controller: 'familyCtrl'
+            controller: 'familyCtrl',
+            resolve: { isAuth }
         })
         .when('/:itemID', {
             templateUrl: './partials/genericFamilyPage.html',
             controller: 'genFamPage',
+            resolve: { isAuth }
+        })
+        .when('/family_edit/:itemId', {
+            templateUrl: './partials/familyEditMemory.html',
+            controller: 'famEdit',
             resolve: { isAuth }
         })
         .otherwise('/');

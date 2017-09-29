@@ -117,19 +117,13 @@ app.factory('database', function($q, $http, FBCreds) {
             $http.post(`${FBCreds.databaseURL}/families.json`, newObj)
                 .then((data) => {
                     console.log('create family data', data.data.name);
-                    console.log('create family data again', obj);
-                    //Here I am defining what the family id is
-                    let newFamId = data.data.name;
-                    obj.famId = newFamId;
-                    console.log('new Fam id', obj.famId);
                     resolve(data.data.name);
-
                 });
         });
     };
     //Immedeatily updating the families data.
     const updateImmediately = function(id, message) {
-        $q((resolve, reject) => {
+        return $q((resolve, reject) => {
             let newMessage = JSON.stringify(message);
             $http.patch(`${FBCreds.databaseURL}/families/${id}.json`, newMessage)
                 .then((data) => {
@@ -141,7 +135,7 @@ app.factory('database', function($q, $http, FBCreds) {
         });
     };
     // Reteving the user 's family list
-    const getFamId = function(user) {
+    const getFamilies = function(user) {
         let families = [];
         return $q((resolve, reject) => {
             $http.get(`${FBCreds.databaseURL}/families.json?orderBy="userId"&equalTo="${user}"`)
@@ -160,7 +154,7 @@ app.factory('database', function($q, $http, FBCreds) {
                 .then((itemObj) => {
                     console.log('personal family obj', itemObj);
 
-                    resolve(itemObj.data);
+                    resolve(itemObj);
                 })
                 .catch((error) => {
                     reject(error);
@@ -173,14 +167,25 @@ app.factory('database', function($q, $http, FBCreds) {
             $http.post(`${FBCreds.databaseURL}/familyMemory.json`, newMemory)
                 .then((data) => {
                     console.log('This is what was posted to the family board', data);
-                    resolve();
+                    resolve(data.data.name);
                 })
                 .catch((error) => {
                     reject(error);
                 });
         });
     };
-    //This needs to be finished
+    const updateFamilyDataImmediately = function(id, message) {
+        return $q((resolve, reject) => {
+            let newMessage = JSON.stringify(message);
+            $http.patch(`${FBCreds.databaseURL}/familyMemory/${id}.json`, newMessage)
+                .then((data) => {
+                    resolve(data.data.name);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
     const pullAllMemories = function(id) {
         return $q((resolve, reject) => {
             $http.get(`${FBCreds.databaseURL}/familyMemory.json?orderBy="familyId"&equalTo="${id}"`)
@@ -192,6 +197,81 @@ app.factory('database', function($q, $http, FBCreds) {
                 });
         });
     };
+    const pullSingleFamilyMemory = function(id) {
+        return $q((resolve, reject) => {
+            $http.get(`${FBCreds.databaseURL}/familyMemory/${id}.json`)
+                .then((data) => {
+                    console.log('single family', data);
+
+                    resolve(data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    const updateFamilyMemory = function(id, message) {
+        return $q((resolve, reject) => {
+            let newMessage = JSON.stringify(message);
+            $http.patch(`${FBCreds.databaseURL}/familyMemory/${id}.json`, newMessage)
+                .then((data) => {
+                    resolve(data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    const deleteFamMemory = function(id) {
+        return $q((resolve, reject) => {
+            $http.delete(`${FBCreds.databaseURL}/familyMemory/${id}.json`)
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    const joinFamily = function(id, array) {
+        let newArray = JSON.stringify(array);
+        return $q((resolve, reject) => {
+            $http.patch(`${FBCreds.databaseURL}/users/${id}.json`, newArray)
+                .then((data) => {
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    const pullUserInfo = function(user) {
+        let id = [];
+        return $q((resolve, reject) => {
+            $http.get(`${FBCreds.databaseURL}/users.json?orderBy="user"&equalTo="${user}"`)
+                .then((profile) => {
+                    let itemCollection = profile.data;
+                    console.log('pulled user profile', itemCollection);
+                    Object.keys(itemCollection).forEach((key) => {
+                        itemCollection[key].id = key;
+                        id.push(itemCollection[key]);
+                        console.log('id', id);
+
+
+                    });
+                    resolve(id);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    const updateUserProfile = function(user, message) {
+        return $q((resolve, reject) => {
+            let newMessage = JSON.stringify(message);
+            $http.patch(`${FBCreds.databaseURL}/users/${user}.json`, newMessage);
+        });
+    };
     return {
         getData,
         createUserProfile,
@@ -200,11 +280,18 @@ app.factory('database', function($q, $http, FBCreds) {
         submitAssets,
         pullSingleMemory,
         deleteMemory,
-        getFamId,
+        getFamilies,
         familyInfo,
         findFamily,
         updateImmediately,
         pullAllMemories,
-        postFamilyMemory
+        postFamilyMemory,
+        updateFamilyDataImmediately,
+        pullSingleFamilyMemory,
+        updateFamilyMemory,
+        deleteFamMemory,
+        joinFamily,
+        pullUserInfo,
+        updateUserProfile
     };
 });

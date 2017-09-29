@@ -1,6 +1,6 @@
 "use strict";
 
-app.factory('userAuth', function($q, $http, database) {
+app.factory('userAuth', function($q, $http, database, FBCreds) {
     let currentUser = null;
 
     //This provides the project with the uid. 
@@ -30,7 +30,7 @@ app.factory('userAuth', function($q, $http, database) {
 
     //This is where I'm letting users sign in with google
     let provider = new firebase.auth.GoogleAuthProvider();
-   
+
     const authWithProvider = function() {
         return firebase.auth().signInWithPopup(provider);
     };
@@ -60,7 +60,73 @@ app.factory('userAuth', function($q, $http, database) {
                 // ...
             });
     };
+    const checkForUser = function(user) {
+        let id = [];
+        return $q((resolve, reject) => {
+            $http.get(`${FBCreds.databaseURL}/users.json?orderBy="user"&equalTo="${user}"`)
+                .then((data) => {
+                    console.log('check for user data', data);
+                    let itemCollection = data.data;
+                    console.log('check for user profile', itemCollection);
+                    Object.keys(itemCollection).forEach((key) => {
+                        itemCollection[key].id = key;
+                        id.push(itemCollection[key]);
 
-
-    return { isAuthenticated, getCurrentUser, logOut, authWithProvider, registerUser, logIn };
+                    });
+                    console.log('id"s', id);
+                    resolve(id);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    const createUser = function(userObject) {
+        let newUserObject = JSON.stringify(userObject);
+        return $q((resolve, reject) => {
+            $http.post(`${FBCreds.databaseURL}/users.json`, newUserObject)
+                .then((data) => {
+                    resolve(data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    const updateUserProfile = function(user, object) {
+        let newObject = JSON.stringify(object);
+        $q((resolve, reject) => {
+            $http.patch(`${FBCreds.databaseURL}/users?orderBy="user"&equalTo="${user}"`, newObject)
+                .then((data) => {
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    const checkForUserUpdate = function(id, message) {
+        let newMessage = JSON.stringify(message);
+        $q((resolve, reject) => {
+            $http.patch(`${FBCreds.databaseURL}/users/${id}.json`, newMessage)
+                .then((data) => {
+                    resolve(data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+    return {
+        isAuthenticated,
+        getCurrentUser,
+        logOut,
+        authWithProvider,
+        registerUser,
+        logIn,
+        checkForUser,
+        createUser,
+        updateUserProfile,
+        checkForUserUpdate
+    };
 });

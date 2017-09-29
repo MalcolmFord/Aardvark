@@ -1,68 +1,85 @@
 "use strict";
 
 app.controller('familyCtrl', function($scope, moment, database, userAuth) {
-    $scope.title = [];
-    //This is just the empty array and object to hold the family's name and id
-    $scope.familyName = {
-        title: '',
-        famId: '',
-        userId: ''
+    $scope.currentUser = userAuth.getCurrentUser();
+    $scope.newFamily = {
+        families: []
     };
+    const updateUserProfile = function() {
 
-    $scope.families = [];
-    const getFamilyList = function() {
+        $scope.newFamily.families.push($scope.newFamId);
 
-        $scope.families.length = 0;
 
-        database.getFamId(userAuth.getCurrentUser())
-            .then(families => {
-                $scope.families = families;
 
+        database.pullUserInfo($scope.currentUser)
+            .then((id) => {
+                //console.log('pulled id', id[0].fbID);
+                $scope.fbID = id[0].fbID;
+
+                database.updateUserProfile($scope.fbID, $scope.newFamily);
             });
     };
 
-
-
-    //The line below is pulling the user's id from the userAuth.js page, and sending it to the empty object
+    $scope.title = [];
+    $scope.familyName = {
+        title: '',
+        famId: '',
+        userId: '',
+        members: []
+    };
+    $scope.families = [];
+    const getFamilyList = function() {
+        $scope.families.length = 0;
+        database.getFamilies(userAuth.getCurrentUser())
+            .then((families) => {
+                $scope.families = families;
+            });
+    };
     $scope.familyName.userId = userAuth.getCurrentUser();
-    /*This block of code will do three things.
-    1) when the button is clicked, it will generate a new family id based on a randomly generated number
-    plus the current timestamp
-    2) when the button is clicked, it will take the value of the user input of their family's last name
-    and add it to a variable
-    3) when clicked, it will take the value of the family's last name , and the value of the unique family id and
-    place them into the empty object and array.*/
     $scope.createFamily = function() {
-        //This is generating the family id
         let momentTime = moment().format("X");
-        //This is takeing the value of the user's input for their family's last name
-        //This is adding the unique family id to the empty array
+        console.log('Brenda family name', $scope.familyName);
+        $scope.familyName.members.push(userAuth.getCurrentUser());
         database.familyInfo($scope.familyName)
             .then((familyInfo) => {
                 console.log('famiily info', familyInfo);
                 $scope.newFamId = familyInfo;
                 $scope.familyName.famId = familyInfo;
-
-                //Here, I'm taking the FB Id, adding it to the object, then sending that back up to firebase
-                $scope.familyName.famId = familyInfo;
                 database.updateImmediately(familyInfo, $scope.familyName);
+                updateUserProfile();
             });
         getFamilyList();
-
     };
     //This function removes the old Family id, before allowing the user to create another ont
     $scope.removeFamId = function() {
         $scope.newFamId = "";
     };
-
-
-
-    /*The goal of this block of code is to pull down to family id's that the user created,
-    take the title of those and display them as a list item in the drop down menu.*/
-
     $scope.findFamily = function() {
-        let familySearchId = $scope.familyId;
-        database.findFamily(familySearchId);
+        database.findFamily($scope.familyId)
+            .then((data) => {
+                $scope.findFamData = data.data;
+                $scope.findFamId = data.data.famId;
+                $scope.familyName = $scope.findFamData;
+                $scope.findUserId = data.data.userId;
+                console.log('findfamData', data.data);
+                $scope.firebaseId = $scope.familyId;
+                console.log('firebaseId', $scope.firebaseId);
+            });
+    };
+    $scope.joinFamily = function() {
+        console.log('$scope.familyName.members', $scope.familyName.members);
+        $scope.familyName.members.push($scope.findUserId);
+        //        database.updateImmediately($scope.firebaseId, $scope.familyName);
+        // database.joinFamily($scope.firebaseId, $scope.familyName.members);
+        $scope.newFamily.families.push($scope.findFamId);
+        database.pullUserInfo($scope.currentUser)
+            .then((data) => {
+                console.log('Joined family data', data);
+                console.log('current user', $scope.currentUser);
+                database.joinFamily(data[0].fbID, $scope.newFamily);
+
+            });
+
     };
 
     getFamilyList();
