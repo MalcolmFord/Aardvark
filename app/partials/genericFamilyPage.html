@@ -1,9 +1,12 @@
-<h1>hi</h1>
-
 <div class="row">
     <div class="col-md-4"></div>
     <div class="col-md-4">
-        <button><a data-toggle="modal" data-target="#myModal" ng-click="removeFamId();"> + Create a Memory </a></button>
+
+        <a data-toggle="modal" data-target="#myModal" ng-click="removeFamId();">
+            <button class="create-btn">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        </a>
     </div>
     <div class="col-md-4"></div>
 </div>
@@ -35,12 +38,21 @@
     </div>
 </div>
 <!-- this shows the family's memories -->
-<div class="row">
-    <div class="col-md-4" ng-repeat="item in mems">
-        <div class="cards">
-            <p ng-model="newMemory.text">{{item.text}}</p>
-            <button><a href="#!/family_edit/{{item.id}}">Edit</a></button>
-            <button ng-click="deleteMemory(item)">Delete</button>
+<div class="container-fluid">
+    <div class="row card-row">
+        <div class="col-md-3" ng-repeat="item in mems">
+            <div class="cards">
+                <p ng-model="newMemory.text" class="fam-page-paragraph">{{item.text}}</p>
+
+                <a href=" #!/family_edit/{{item.id}} ">
+                    <button class="edit-btn ">
+                            <span class="glyphicon glyphicon-pencil "> </span>
+                            </button>
+                </a>
+                <button ng-click="deleteMemory(item) " class="delete-btn ">
+                            <span class="glyphicon glyphicon-trash "></span>
+                        </button>
+            </div>
         </div>
     </div>
 </div>

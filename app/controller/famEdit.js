@@ -17,6 +17,9 @@ app.controller('famEdit', function($scope, $routeParams, database) {
         console.log('something', $scope.update.text);
 
         database.updateFamilyMemory($routeParams.itemId, newMemory);
+        window.history.back();
+
     };
     pullSingleFamilyMemory();
+
 });

@@ -27,7 +27,9 @@
 <div class="row">
     <div class="col-md-4"></div>
     <div class="col-md-4">
-        <button><a data-toggle="modal" data-target="#myModal" ng-click="removeFamId();"> + Create a Memory </a></button>
+        <button class="create-btn" ng-click="removeFamId();" data-toggle="modal" data-target="#myModal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
     </div>
     <div class="col-md-4"></div>
 </div>
@@ -36,9 +38,15 @@
     <div ng-repeat="item in pulledArray" id="{{item.id}}" class="col-md-3">
         <div class="cards">
             <img src="{{item.image}}">
-            <p>{{item.message}}</p>
-            <button><a href="#!/edit/{{item.id}}">Edit</a></button>
-            <button ng-click="deleteMemory(item)">Delete</button>
+            <p class="fam-page-paragraph">{{item.message}}</p>
+            <a href="#!/edit/{{item.id}}">
+                <button class="edit-btn">
+                <span class="glyphicon glyphicon-pencil"> </span>
+                </button>
+            </a>
+            <button ng-click="deleteMemory(item)" class="delete-btn">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
         </div>
     </div>
 </div>

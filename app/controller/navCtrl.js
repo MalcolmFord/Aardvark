@@ -1,6 +1,6 @@
 "use strict";
 
-app.controller('navCtrl', function($scope, userAuth, $window) {
+app.controller('navCtrl', function($scope, userAuth, $window, $routeParams) {
     $scope.logout = function() {
         // console.log('You clicked logged out');
 
@@ -39,6 +39,7 @@ app.controller('navCtrl', function($scope, userAuth, $window) {
     $scope.reloadRoute = function() {
         $window.location.reload();
     };
+    console.log('navbar route params', $routeParams);
 
 
 });
