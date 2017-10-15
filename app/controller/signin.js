@@ -27,10 +27,14 @@ app.controller('signIn', function($scope, userAuth, $location, $window, database
                             $scope.createUserProfile.fbID = profile.data.name;
                             console.log('$scope.createUserProfile.fbID', $scope.createUserProfile.fbID);
                             userAuth.checkForUserUpdate(profile.data.name, $scope.createUserProfile);
+                            $window.location.reload();
+                            $scope.apply();
                         });
 
                 } else {
                     console.log('DATA IS NOT NULL', data);
+                    $window.location.reload();
+                    $scope.apply();
 
                 }
             });
@@ -45,6 +49,7 @@ app.controller('signIn', function($scope, userAuth, $location, $window, database
                 $scope.displayName = result.user.displayName;
                 console.log('$scope.loggedInUser', $scope.loggedInUser);
                 checkForUser();
+
             })
             .catch((error) => {
                 console.log("error with google login");
@@ -61,9 +66,4 @@ app.controller('signIn', function($scope, userAuth, $location, $window, database
         $scope.password = "";
         userAuth.logIn($scope.email, $scope.password);
     };
-
-    $scope.reloadRoute = function() {
-        $window.location.reload();
-    };
-
 });

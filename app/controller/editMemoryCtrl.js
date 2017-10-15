@@ -28,6 +28,7 @@ app.controller('editMemoryCtrl', function($scope, database, userAuth, $routePara
         database.editMemory($routeParams.itemId, $scope.editMemory)
             .then(() => {
                 getAllMemories();
+                window.history.back();
             });
     };
 

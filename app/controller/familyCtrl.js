@@ -1,6 +1,6 @@
 "use strict";
 
-app.controller('familyCtrl', function($scope, moment, database, userAuth) {
+app.controller('familyCtrl', function($scope, moment, database, userAuth, $window) {
     $scope.currentUser = userAuth.getCurrentUser();
     $scope.newFamily = {
         families: []
@@ -45,10 +45,13 @@ app.controller('familyCtrl', function($scope, moment, database, userAuth) {
                 console.log('famiily info', familyInfo);
                 $scope.newFamId = familyInfo;
                 $scope.familyName.famId = familyInfo;
-                database.updateImmediately(familyInfo, $scope.familyName);
-                updateUserProfile();
+                database.updateImmediately(familyInfo, $scope.familyName)
+                    .then(() => {
+                        updateUserProfile();
+                        getFamilyList();
+                    });
             });
-        getFamilyList();
+        // getFamilyList();
     };
     //This function removes the old Family id, before allowing the user to create another ont
     $scope.removeFamId = function() {
